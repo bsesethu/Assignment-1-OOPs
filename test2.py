@@ -18,6 +18,13 @@ df = pd.read_csv('student_habits_performance.csv', delimiter= ';') # Values in t
 # missing_percentage = 100.0 * count1 / (count1 + count2)
 # print(f'Proportion of missing data to the total: {round(missing_percentage, 2)}% of data is missing.') # percentage is well below 1%, Unlikely to have a major impact on overall findings
 
+# Sleightly better way of checking for missing values. Copy paste from website
+for col in df.columns: 
+    miss = df[col].isnull().sum() 
+    if miss > 0: 
+        print("{} has {} missing value(s)".format(col,miss)) 
+    else: print("{} has NO missing value!".format(col))
+
 # print(df.isna()) # Returns missing values as true
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 rows_total = df.shape[0] # Total number of rows
@@ -34,7 +41,11 @@ print(df.loc[[0], ['parental_education_level']]) # It works here!! Why did this 
 
 
 # Dropping duplicates
-df.drop_duplicates('parental_education_level')
+
+df_noDuplicates = df.drop_duplicates()
+    
+print('\nDropped duplicates')
+print(df_noDuplicates)
 
 
 # Checking if the dataframe has changed
@@ -59,3 +70,4 @@ print(f'Proportion of missing data to the total: {round(missing_percentage, 2)}%
 # result_1 = df['parental_education_level'].isnull().to_numpy().nonzero()
 # print(result_1) # Works perfectly, just a bit extra, dont need to include it
 
+print('\n', df.dtypes) # Print the datatypes of each column
