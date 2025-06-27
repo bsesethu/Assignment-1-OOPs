@@ -53,6 +53,7 @@ class DataCleaner_Ass1:
         for i in range(rows_total):
             if pd.isna(df.loc[i, 'parental_education_level']): 
                 df.loc[i, 'parental_education_level'] = 'No Education'
+        return df
         # Could've done all this using one line
         # df['parental_education_level'].fillna('No Education', inplace= True)
 
