@@ -29,7 +29,7 @@ class StudentAnalyser:
         sigma = round(np.std(df[column_name]), 2) # Returns the standard deviation 
         return sigma
     
-    # (Function) Find outlier values and indices of a single column
+    # (Function) Find outlier values and indices of a single column. NOTE it may need to be normally distributed, find out
     def findOutliers(df, column_name, sigma): #NOTE Returns two variables, sigma is the standard deviation. 
         mean_value = df[column_name].mean() # Mean value
         print('Mean value:', mean_value)
