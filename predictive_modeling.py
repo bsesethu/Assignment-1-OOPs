@@ -9,12 +9,23 @@ df = clean1.parentalNulls_fix(df)
 print(df.info())
 
 class ScorePredictor:
+    # (Function) Model function. Linear regression
+    def model_LinearReg(self, df, X, prediction_num): # X is the input features, prediction_num is the index of the prediction required
+        y = df['exam_score']
+
+        model = LinearRegression() # Needs round brackets, whereas DataCleaner_Ass1 doesn't. Its all about whether or not therre was 'self' in the method parameters.
+        model.fit(X, y)
+
+        prediction = model.predict(x)[prediction_num]
+        return prediction
+   
     # (Function) Convert specific string value to an integer using kwargs. Hence we can then include string value coulumns in the model
     def string_to_Int(self, df, column_name, **kwargs):
         for i, value in enumerate(kwargs.values(), start= 1):
             df.loc[df[column_name] == value, column_name] = i
         return df
 
+# Adding more 
 Sco = ScorePredictor() #NOTE The round bracet thing is instantiating the variable 'self'.
 new_df = Sco.string_to_Int(df, 'gender', arg1='Female', arg2='Male', arg3= 'Other') # String to integer the gender column, do the same to the other string columns
 new_df = Sco.string_to_Int(new_df, 'part_time_job', arg1='No', arg2='Yes', arg3= 'Other')
@@ -25,27 +36,15 @@ new_df = Sco.string_to_Int(new_df, 'extracurricular_participation', arg1='No', a
 
 print(new_df.head())
                 
-
 x = new_df[['age', 'gender', 'study_hours_per_day', 'social_media_hours', 
-        'netflix_hours', 'part_time_job', 'attendance_percentage', 
-        'sleep_hours', 'diet_quality', 'exercise_frequency', 
-        'parental_education_level', 'internet_quality', 'mental_health_rating', 
-        'extracurricular_participation']]
+'netflix_hours', 'part_time_job', 'attendance_percentage', 
+'sleep_hours', 'diet_quality', 'exercise_frequency', 
+'parental_education_level', 'internet_quality', 'mental_health_rating', 
+'extracurricular_participation']]
 
-# x1 = pd.DataFrame([{ # Trying to imput manually, see if there's a difference. Nope!
-#     'age': 23, 'gender': 1, 'study_hours_per_day': 1.0, 'social_media_hours': 3.9, 
-#         'netflix_hours': 1.0, 'part_time_job': 1, 'attendance_percentage': 71.0, 
-#         'sleep_hours': 9.2, 'diet_quality': 3, 'exercise_frequency': 4, 
-#         'parental_education_level': 1, 'internet_quality': 3, 'mental_health_rating': 1, 
-#         'extracurricular_participation': 2
-# }])
-y = new_df['exam_score']
-
-model = LinearRegression() # Needs round brackets, whereas DataCleaner_Ass1 doesn't
-model.fit(x, y)
-
-prediction_1 = model.predict(x)[3]
-print(prediction_1) # Prediction is the same, with or without the string value columns. How is that possible!?
+prediction_1 = Sco.model_LinearReg(new_df, x, 4)
+print(prediction_1) # Prediction is the same, with or without the string value columns. How is that possible!? Perhaps a linear model is just not really the right approach. 
+                    # But the predictions aren't terrible, I just thought that we could get them more accurate.
 
 # print(new_df.info())
 
